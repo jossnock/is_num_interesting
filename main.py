@@ -1,24 +1,22 @@
 import math
+import random
 
 def digit_trunc(number):
     """Returns the last digit of a number."""
     return int(str(number)[-1])
 
-def is_num_interesting(number, interesting_numbers = []):
+def is_num_interesting(number, interesting_numbers = {}):
     """
+    (See README.md for a definition of an interesting number)
     Parameters:
-     - number: int, 
-     - interesting_numbers: list, 
+     - number (int)
+     - interesting_numbers (list, set, tuple, int)
 
     Returns:
      - True if number is interesting
      - False if number isn't interesting
-    
-    range(i, j) produces i, i+1, i+2, ..., j-1. 
-    start defaults to 0, and stop is omitted! range(4) produces 0, 1, 2, 3. 
-    These are exactly the valid indices for a list of 4 elements. 
-    step is given, it specifies the increment (or decrement).
     """
+    
     try:
         # normalising parameters:
         int(number)
@@ -81,6 +79,46 @@ def is_num_interesting(number, interesting_numbers = []):
         ValueError
 
     return False
+
+def random_test(interval_start = 1, interval_end = 2**64):
+    """
+    random_test() passes a random integer within an interval into is_num_interesting(), returning if the number was interesting or not.\n
+
+    Parameters:
+     - interval_start (int), inclusive
+     - interval_end (int), inclusive
+
+    Returns:
+     - True if the random number is interesting
+     - False if the random number isn't interesting
+    """
+    
+    if is_num_interesting(random.randint(interval_start, interval_end)):
+        return True
+    return False
+
+def random_test_until_true(interval_start = 1, interval_end = 2**64, max_randints_generated = 2**8):
+    """
+    random_test_until_true() passes a random integer within an interval into is_num_interesting() repeatedly, returning the first interesting number found.\n
+    
+    Parameters:
+     - interval_start (int), inclusive
+     - interval_end (int), inclusive
+     - max_randints_generated (int), reccomended to be no higher than 2**8
+
+    Returns:
+     - [number, "randints generated = " + str(count)] if an interesting random number is found
+     - ["no interesting number found", "randints generated = " + str(count)] False if an interesting random number isn't found
+    """
+    
+    interesting_int_found = False
+    count = 1
+    while count <= max_randints_generated and interesting_int_found == False:
+        number = random.randint(interval_start, interval_end)
+        if is_num_interesting(number) == True:
+            return [number, "randints generated = " + str(count)]
+        count += 1
+    return ["no interesting number found", "randints generated = " + str(count - 1)] # (count - 1) b/c the final count += 1 at the end of the while loop overestimates the count by 1
 
 
 # asserts:
