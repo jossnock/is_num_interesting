@@ -24,6 +24,7 @@ Returns:
  - The digits match one of the values in the interesting_numbers array
 
  † For incrementing sequences, 0 should come after 9, and not before 1, as in 7890.
+ 
  ‡ For decrementing sequences, 0 should come after 1, and not before 9, as in 3210.
 
 ### random_test(interval_start = 1, interval_end = 2**64):
