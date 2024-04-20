@@ -15,7 +15,7 @@ Returns:
     - True if number is interesting
     - False if number isn't interesting
 
-#### "Interesting" Numbers:
+#### Interesting Numbers:
  - Any digit followed by all zeros: 100, 90000
  - Every digit is the same number: 1111
  - The digits are sequential, incementing†: 1234
