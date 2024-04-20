@@ -1,4 +1,4 @@
-# sturdy-broccoli
+# is_num_interesting
 
  ## Functions Included:
  ### digit_trunc(number)
