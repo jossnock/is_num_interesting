@@ -1,10 +1,11 @@
 # is_num_interesting
 
- ## Functions Included:
- ### digit_trunc(number)
+Credit to  [user448810](https://stackoverflow.com/users/448810/user448810) for is_prime() from their reply to [this post](https://stackoverflow.com/questions/36522167/checking-primality-of-very-large-numbers-in-python).
+
+## digit_trunc(number)
 Returns the last digit of a number.
 
-### is_num_interesting(number, interesting_numbers = {})
+## is_int_interesting(number, interesting_numbers = {})
 (See below for a definition of an interesting number)
 
 Parameters:
@@ -15,7 +16,7 @@ Returns:
     - True if number is interesting
     - False if number isn't interesting
 
-#### Interesting Numbers:
+### Interesting Numbers:
  - Any digit followed by all zeros: 90000
  - Every digit is the same number: 1111
  - The digits are sequential, incementing†: 1234
@@ -27,7 +28,7 @@ Returns:
 
  ‡ For decrementing sequences, 0 should come after 1, and not before 9, as in 3210.
 
-### random_test(interval_start = 1, interval_end = 2**64):
+## random_test(interval_start = 1, interval_end = 2**64):
 random_test() passes a random integer within an interval into is_num_interesting(), returning if the number was interesting or not.
 
 Parameters:
@@ -38,7 +39,7 @@ Returns:
     - True if the random number is interesting
     - False if the random number isn't interesting
 
-### random_test_until_true(interval_start = 1, interval_end = 2**64, max_randints_generated = 2**8):
+## random_test_until_true(interval_start = 1, interval_end = 2**64, max_randints_generated = 2**8):
 random_test_until_true() passes a random integer within an interval into is_num_interesting() repeatedly, returning the first interesting number found.
 
 Parameters:
