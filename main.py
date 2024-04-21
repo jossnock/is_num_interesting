@@ -150,7 +150,7 @@ def interesting_properties(number, interesting_numbers = {}):
     return False
 
 def is_int_interesting(number):
-    if interesting_properties(number) == None: return False
+    if interesting_properties(number) == None or interesting_properties(number) == False: return False
     return True
 
 # random tests:
@@ -191,7 +191,6 @@ def random_test_until_true(interval_start = 1, interval_end = 2**64, max_randint
             return [number, "randints generated = " + str(count)]
         count += 1
     return ["no interesting number found", "randints generated = " + str(count - 1)] # (count - 1) b/c the final count += 1 at the end of the while loop overestimates the count by 1
-
 
 # asserts:
 assert is_int_interesting(1) == True
