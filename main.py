@@ -149,8 +149,8 @@ def interesting_properties(number, interesting_numbers = {}):
     except ValueError: ValueError
     return False
 
-def is_int_interesting(number):
-    if interesting_properties(number) == None or interesting_properties(number) == False: return False
+def is_int_interesting(number, interesting_numbers = {}):
+    if interesting_properties(number, interesting_numbers) == None or interesting_properties(number) == False: return False
     return True
 
 # random tests:
@@ -199,7 +199,7 @@ assert is_int_interesting(500) == True
 assert is_int_interesting(283) == True
 assert is_int_interesting("pi") == False
 
-assert is_int_interesting(12312, [12312, 234987234, 131023.123]) == True
+assert is_int_interesting(12312, [12312, 234987234, 131023]) == True
 assert is_int_interesting("testing", {"testing"}) == False # only accepts ints
 assert is_int_interesting(14.7, {14.7}) == False # only accepts ints
 assert is_int_interesting(314159, 314159) == True
