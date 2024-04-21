@@ -16,6 +16,14 @@ def digit_trunc(number):
     return int(str(number)[-1])
 
 def is_digit_followed_by_zeroes(number):
+    """
+    Parameters:
+     - number (int)
+
+    Returns:
+     - True if number is one digit followed by only zeroes (e.g. 30000, 600, 900000)
+     - False if number isn't prime
+    """
     if len(str(number)) == 1:
         return False
     try:
@@ -26,6 +34,15 @@ def is_digit_followed_by_zeroes(number):
     return False
 
 def is_pow_of_given_int(number, base):
+    """
+    Parameters:
+     - number (int)
+     - base (int)
+
+    Returns:
+     - True if number can be expressed in the form base**x, where: base, x ∈ N
+     - False if number can't be expressed in the form base**x, where: base, x ∈ N
+    """
     try:
         if ceil(log(number, base)) == log(number, base): # check if float ≡ int
             return True
@@ -33,6 +50,15 @@ def is_pow_of_given_int(number, base):
     return False
 
 def is_pow_of_int(number, max_base = 9):
+    """
+    Parameters:
+     - number (int)
+     - max_base (int)
+
+    Returns:
+     - [True, base] if number can be expressed in the form base**x, where: base, x ∈ N
+     - False if number can't be expressed in the form base**x, where: base, x ∈ N
+    """
     try:
         for base in range(2, max_base + 1): 
             if is_pow_of_given_int(number, base) == True: return [True, base]
@@ -40,6 +66,14 @@ def is_pow_of_int(number, max_base = 9):
     return False
 
 def is_all_repeated_digit(number):
+    """
+    Parameters:
+     - number (int)
+
+    Returns:
+     - True if number is made up of only 1 repeated digit
+     - False if number isn't made up of only 1 repeated digit
+    """
     number_str = str(number)
     if number_str == number_str[0] * len(number_str):
         return True
@@ -48,8 +82,19 @@ def is_all_repeated_digit(number):
     # The digits are sequential, incementing: 1234
 
 def is_asc_or_dec(number, include_asc = True, include_dec = True):
-    number_str = str(number)
+    """
+    Parameters:
+     - number (int)
+     - include_asc (bool)
+     - include_dec (bool)
 
+    Returns:
+     - True if number's digits are in ascending or descending order
+     - False if number's digits aren't in ascending or descending order
+    """
+    number_str = str(number)
+    if len(number_str) <= 2:
+        return False
     if include_asc == True:
         is_asc = True
         prev_i = 0 # placeholder value
@@ -76,6 +121,14 @@ def is_asc_or_dec(number, include_asc = True, include_dec = True):
     return False
 
 def is_palin(number):
+    """
+    Parameters:
+     - number (int)
+
+    Returns:
+     - True if number is palindromic
+     - False if number isn't palindromic
+    """
     number_str = str(number)
     is_palin = True
     for i in range(trunc(len(number_str) / 2) + 1): # only needs to check halfway through the list (rounded up)
@@ -87,7 +140,7 @@ def is_palin(number):
 
 def is_prime(number, itterations=5): # Miller-Rabin primality test (credit to https://stackoverflow.com/users/448810/user448810)
     """
-    not 100% accurate
+    (not 100% accurate)
     Parameters:
      - number (int)
      - itterations (int)
@@ -99,11 +152,11 @@ def is_prime(number, itterations=5): # Miller-Rabin primality test (credit to ht
     if number < 2: return False
     for prime in [2,3,5,7,11,13,17,19,23,29]:
         if number % prime == 0: return number == prime
-    exponent, odd_factor = 0, number - 1
-    while odd_factor % 2 == 0:
-        exponent, odd_factor = exponent + 1, odd_factor // 2
+    exponent, odd_int = 0, number - 1
+    while odd_int % 2 == 0:
+        exponent, odd_int = exponent + 1, odd_int // 2
     for i in range(itterations):
-        base_value = pow(randint(2, number - 1), odd_factor, number)
+        base_value = pow(randint(2, number - 1), odd_int, number)
         if base_value == 1 or base_value == number - 1: continue
         for r in range(1, exponent):
             base_value = (base_value ** 2) % number
@@ -112,17 +165,32 @@ def is_prime(number, itterations=5): # Miller-Rabin primality test (credit to ht
         else: return False
     return True
 
+def is_narc(number):
+    """
+    Parameters:
+     - number (int)
+
+    Returns:
+     - True if number is narcissistic (i.e. equal to the sum of its own digits each raised to the power of the number of digits)
+     - False if number isn't narcissistic
+    """
+    number_str = str(number)
+    num_length = len(number_str)
+    narc_number = 0
+    for digit in number_str:
+        narc_number += int(digit) ** num_length
+    return number == narc_number
+
 # main function:
 def interesting_properties(number, interesting_numbers = {}):
     """
     (see README.md for a definition of an interesting number)\n
     Parameters:
-     - number (int, str)
+     - number (int)
      - interesting_numbers (list, set, tuple, int)
 
     Returns:
-     - True if number is interesting
-     - an array containing the number's interesting properties
+     - a set containing the number's interesting properties if number is interesting
      - False if number isn't interesting
     """
     number_properties = set(())
@@ -142,6 +210,7 @@ def interesting_properties(number, interesting_numbers = {}):
         if is_prime(number) == True: number_properties.add("prime")
         pow_of_int_property = is_pow_of_int(number)
         if pow_of_int_property != False: number_properties.add(f"power of {pow_of_int_property[1]}")
+        if is_narc(number) == True: number_properties.add("narcissistic")
         if number in interesting_numbers: number_properties.add("in interesting_numbers")
         if number_properties == set(()):
             number_properties = None
@@ -150,18 +219,27 @@ def interesting_properties(number, interesting_numbers = {}):
     return False
 
 def is_int_interesting(number, interesting_numbers = {}):
+    """
+    (see README.md for a definition of an interesting number)\n
+    Parameters:
+     - number (int)
+     - interesting_numbers (list, set, tuple, int)
+
+    Returns:
+     - True if number is interesting
+     - False if number isn't interesting
+    """
     if interesting_properties(number, interesting_numbers) == None or interesting_properties(number) == False: return False
     return True
+
 
 # random tests:
 def random_test(interval_start = 1, interval_end = 2**64):
     """
-    random_test() passes a random integer within an interval into is_num_interesting(), returning if the number was interesting or not.\n
-
     Parameters:
      - interval_start (int), inclusive
      - interval_end (int), inclusive
-
+    
     Returns:
      - True if the random number is interesting
      - False if the random number isn't interesting
@@ -171,9 +249,7 @@ def random_test(interval_start = 1, interval_end = 2**64):
     return False
 
 def random_test_until_true(interval_start = 1, interval_end = 2**64, max_randints_generated = 2**8):
-    """
-    random_test_until_true() passes a random integer within an interval into is_num_interesting() repeatedly, returning the first interesting number found.\n
-    
+    """    
     Parameters:
      - interval_start (int), inclusive
      - interval_end (int), inclusive
@@ -192,20 +268,8 @@ def random_test_until_true(interval_start = 1, interval_end = 2**64, max_randint
         count += 1
     return ["no interesting number found", "randints generated = " + str(count - 1)] # (count - 1) b/c the final count += 1 at the end of the while loop overestimates the count by 1
 
+
 # asserts:
-assert is_int_interesting(1) == True
-assert is_int_interesting(3443) == True
-assert is_int_interesting(500) == True
-assert is_int_interesting(283) == True
-assert is_int_interesting("pi") == False
-
-assert is_int_interesting(12312, [12312, 234987234, 131023]) == True
-assert is_int_interesting("testing", {"testing"}) == False # only accepts ints
-assert is_int_interesting(14.7, {14.7}) == False # only accepts ints
-assert is_int_interesting(314159, 314159) == True
-
-assert is_int_interesting("boop oop soup") == False
-
 assert digit_trunc(10) == 0
 assert digit_trunc(24356) == 6
 
@@ -238,3 +302,20 @@ assert is_palin(345345) == False
 
 assert is_prime(80941897) == True
 assert is_prime(739*103) == False
+
+assert is_narc(9474) == True
+assert is_narc(150) == False
+
+assert interesting_properties(56) == None
+assert interesting_properties(2**6) == {'power of 2'}
+
+assert is_int_interesting(1) == True
+assert is_int_interesting(3443) == True
+assert is_int_interesting(500) == True
+assert is_int_interesting(283) == True
+assert is_int_interesting("boop oop soup") == False
+
+assert is_int_interesting(12312, [12312, 234987234, 131023]) == True
+assert is_int_interesting("testing", {"testing"}) == False # only accepts ints
+assert is_int_interesting(14.7, {14.7}) == False # only accepts ints
+assert is_int_interesting(314159, 314159) == True
