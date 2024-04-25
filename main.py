@@ -181,6 +181,22 @@ def is_narc(number):
         narc_number += int(digit) ** num_length
     return number == narc_number
 
+def is_happy(number):
+    """
+    Parameters:
+     - number (int)
+
+    Returns:
+     - True if number is happy (i.e. a number which eventually reaches 1 when replaced by the sum of the square of each digit)
+     - False if number isn't happy
+    """
+
+    past_number_str = str(number)
+    number_str = 0
+    for digit in past_number_str:
+        number_str += 
+    past_number_str = number_str
+
 # main function:
 def interesting_properties(number, interesting_numbers = {}):
     """
